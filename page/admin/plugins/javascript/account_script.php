@@ -3,6 +3,25 @@ $(function(){
     search_account();
 });
 
+const check_user_type =()=>{
+	var user_type = document.getElementById('user_type').value;
+	if (user_type == 'employee') {
+		document.getElementById('emp_col').style.display = "block";
+	}else{
+		document.getElementById('emp_col').style.display = "none";
+	}
+}
+
+const check_user_type_update =()=>{
+	var user_type = document.getElementById('user_type_update').value;
+	if (user_type == 'employee') {
+		document.getElementById('emp_col_update').style.display = "block";
+	}else{
+		document.getElementById('emp_col_update').style.display = "none";
+	}
+}
+
+
 const search_account =()=>{
 	$('#spinner').css('display','block');
 	var username = document.getElementById('account_username_search').value;
@@ -21,14 +40,24 @@ const search_account =()=>{
 }
 
 const save_account =()=>{
-	var fullname = document.getElementById('fullname_add_account').value;
-	var username = document.getElementById('username_add_account').value;
-	var password = document.getElementById('password_add_account').value;
+	var user_type = document.getElementById('user_type').value;
+	var employee_id = document.getElementById('employee_id').value;
+	var username = document.getElementById('username').value;
+	var password = document.getElementById('password').value;
 
-	if (fullname == '') {
+
+	if (user_type == '') {
 			Swal.fire({
 	            icon: 'info',
-	            title: 'Please Input Fullname !!!',
+	            title: 'Please Select User Type !!!',
+	            text: 'Information',
+	            showConfirmButton: false,
+	            timer : 1000
+	        });
+	}else if(user_type == 'employee' && employee_id == ''){
+			Swal.fire({
+	            icon: 'info',
+	            title: 'Please Input Employee ID !!!',
 	            text: 'Information',
 	            showConfirmButton: false,
 	            timer : 1000
@@ -44,7 +73,7 @@ const save_account =()=>{
 	}else if(password == ''){
 			Swal.fire({
 	            icon: 'info',
-	            title: 'Please Password !!!',
+	            title: 'Please Input Password !!!',
 	            text: 'Information',
 	            showConfirmButton: false,
 	            timer : 1000
@@ -56,9 +85,10 @@ const save_account =()=>{
 	        cache:false,
 	        data:{
 	            method:'add_account',
-	            	fullname:fullname,
-					username:username,
-					password:password
+	            user_type:user_type,
+				employee_id:employee_id,
+				username:username,
+				password:password
 	        },success:function(response){    
 	            
 	            if (response == 'success') {
@@ -69,9 +99,10 @@ const save_account =()=>{
 	                      showConfirmButton: false,
 	                      timer : 1000
 	                    });
-	                    $("#fullname_add_account").val('');
-	          			$("#username_add_account").val('');
-	          			$("#password_add_account").val('');
+	                    $("#user_type").val('');
+	          			$("#employee_id").val('');
+	          			$("#username").val('');
+	          			$("#password").val('');
 	          			$('#add_account').modal('hide');
 	          			search_account();
 	            }else if(response == 'duplicate'){
@@ -82,9 +113,24 @@ const save_account =()=>{
 	                      showConfirmButton: false,
 	                      timer : 1000
 	                    });
-	                    $("#fullname_add_account").val('');
-	          			$("#username_add_account").val('');
-	          			$("#password_add_account").val('');
+	                    $("#user_type").val('');
+	          			$("#employee_id").val('');
+	          			$("#username").val('');
+	          			$("#password").val('');
+	          			$('#add_account').modal('hide');
+	          			search_account();
+	            }else if(response == 'not existing'){
+	                     Swal.fire({
+	                      icon: 'info',
+	                      title: 'Employee ID Not Existing !!!',
+	                      text: 'Information',
+	                      showConfirmButton: false,
+	                      timer : 1000
+	                    });
+	                    $("#user_type").val('');
+	          			$("#employee_id").val('');
+	          			$("#username").val('');
+	          			$("#password").val('');
 	          			$('#add_account').modal('hide');
 	          			search_account();
 	            }else{
@@ -95,9 +141,10 @@ const save_account =()=>{
 	                      showConfirmButton: false,
 	                      timer : 1000
 	                    });
-	                    $("#fullname_add_account").val('');
-	          			$("#username_add_account").val('');
-	          			$("#password_add_account").val('');
+	                    $("#user_type").val('');
+	          			$("#employee_id").val('');
+	          			$("#username").val('');
+	          			$("#password").val('');
 	          			$('#add_account').modal('hide');
 	          			search_account();       
 	                }
@@ -109,14 +156,17 @@ const save_account =()=>{
 const get_account_details =(param)=>{
 	var data = param.split('~!~');
     var id = data[0];
-    var full_name = data[1];
+    var employee_id = data[1];
     var username = data[2];
     var password = data[3];
+    var role = data[4];
 
     document.getElementById('id_account').value = id;
-    document.getElementById('fullname_update_account').value = full_name;
-	document.getElementById('username_update_account').value = username;
-	document.getElementById('password_update_account').value = password;
+    document.getElementById('user_type_update').value = role;
+    document.getElementById('employee_id_update').value = employee_id;
+	document.getElementById('username_update').value = username;
+	document.getElementById('password_update').value = password;
+	check_user_type_update();
 }
 
 const update_account =()=>{

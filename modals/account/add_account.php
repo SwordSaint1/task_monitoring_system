@@ -11,29 +11,40 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-4">
-                <span><b>Fullname:</b></span>
-                <input type="text" id="fullname_add_account" class="form-control" style="height:45px; border: 1px solid black; font-size: 25px;" autocomplete="off">
+            <div class="col-lg-3 col-md-3 col-sm-12" id="user_type_col">
+                <label>User Type:</label>
+                <select id="user_type" class="form-control" onchange="check_user_type()">
+                    <option value="">Select User Type</option>
+                    <option value="hr">Human Resources</option>
+                    <option value="hd">Head Department</option>
+                    <option value="tm">Top Management</option>
+                    <option value="employee">Employee</option>
+                    <option value="admin">Admin</option>
+                </select>
             </div>
-            <div class="col-4">
-                 <span><b>Username:</b></span>
-                 <input type="text" id="username_add_account" class="form-control" style="height:45px; border: 1px solid black; font-size: 25px;" autocomplete="off">
+            <div class="col-lg-3 col-md-3 col-sm-12" id="emp_col">
+                <label>Employee ID:</label>
+                <input type="text" id="employee_id" class="form-control" autocomplete="off">
             </div>
-            <div class="col-4">
-                 <span><b>Password:</b></span>
-                 <input type="password" id="password_add_account" class="form-control" style="height:45px; border: 1px solid black; font-size: 25px;" autocomplete="off">
+            <div class="col-lg-3 col-md-3 col-sm-12" id="username_col">
+                <label>Username:</label>
+                <input type="text" id="username" class="form-control" autocomplete="off">
             </div>
-        </div> 
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-            <div class="col-12">
-                <div class="float-right">
-                    <a href="#" class="btn btn-primary" onclick="save_account()">Register Account</a>
-                </div>
+            <div class="col-lg-3 col-md-3 col-sm-12" id="password_col">
+                <label>Password:</label>
+                <input type="text" id="password" class="form-control" autocomplete="off">
             </div>
         </div>
-      </div>
+        </div> 
+          <div class="modal-footer">
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-right">
+                        <a href="#" class="btn btn-primary" onclick="save_account()">Register Account</a>
+                    </div>
+                </div>
+            </div>
+          </div>
     </div>
   </div>
 </div>

@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <img src="../../dist/img/logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light"><b>Barangay | System</b></span>
+      <span class="brand-text font-weight-light"><b style="font-size: 18px;">Task Monitoring | System</b></span>
     </a>
 
     <!-- Sidebar -->
@@ -14,7 +14,7 @@
 
         </div>
         <div class="info">
-          <a href="#" class="d-block"><b><?=strtoupper($full_name);?></b></a>
+          <a href="#" class="d-block"><b><?=strtoupper($role);?> | <?=strtoupper($user_name);?></b></a>
         </div>
       </div>
 
@@ -31,15 +31,6 @@
               <i class="fas fa-desktop"></i>
               <p>
                 Dashboard
-               
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="resident.php" class="nav-link">
-              <i class="far fa-address-card"></i>
-              <p>
-                Residence Management
                
               </p>
             </a>

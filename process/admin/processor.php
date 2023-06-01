@@ -14,7 +14,7 @@ if ($method == 'fetch_account') {
 		foreach($stmt->fetchALL() as $j){
 			$role = $j['role'];
 			$c++;
-			echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#edit_account" onclick="get_account_details(&quot;'.$j['id'].'~!~'.$j['username'].'~!~'.$j['password'].'&quot;)">';
+			echo '<tr style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#edit_account" onclick="get_account_details(&quot;'.$j['id'].'~!~'.$j['employee_id'].'~!~'.$j['username'].'~!~'.$j['password'].'~!~'.$j['role'].'&quot;)">';
 				echo '<td>'.$c.'</td>';
 				echo '<td>'.$j['username'].'</td>';
 				if($role == 'hr'){
@@ -37,27 +37,56 @@ if ($method == 'fetch_account') {
 		echo '</tr>';
 	}
 }else if ($method == 'add_account') {
-	$fullname = $_POST['fullname'];
+	$user_type = $_POST['user_type'];
+	$employee_id = $_POST['employee_id'];
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	$check = "SELECT id FROM user_accounts WHERE username = '$username'";
-	$stmt = $conn->prepare($check);
-	$stmt->execute();
-	if ($stmt->rowCount() > 0) {
-		echo 'duplicate';
-	}else{
-		$stmt = NULL;
-		$query = "INSERT INTO user_accounts(`full_name`, `username`, `password`) VALUES ('$fullname','$username','$password')";
+	if ($user_type == 'employee') {
+		// for employee only
+		$query = "SELECT id FROM employee_details WHERE employee_id = '$employee_id'";
 		$stmt = $conn->prepare($query);
-		if ($stmt->execute()) {
-			echo 'success';
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
 			$stmt = NULL;
+			$query = "SELECT id FROM user_accounts WHERE employee_id = '$employee_id'";
+			$stmt = $conn->prepare($query);
+			$stmt->execute();
+			if ($stmt->rowCount() > 0) {
+				echo 'duplicate';
+			}else{
+				$stmt = NULL;
+				$query = "INSERT INTO user_accounts(`employee_id`,`username`,`password`,`role`)VALUES('$employee_id','$username','$password','$user_type')";
+				$stmt = $conn->prepare($query);
+				if ($stmt->execute()) {
+					echo 'success';
+				}else{
+					echo 'error';
+				}
+			}
 		}else{
-			echo 'error';
+			echo 'not existing';
+		}
+	}else{
+		// for other type of user
+		$stmt = NULL;
+		$query = "SELECT id FROM user_accounts WHERE username = '$username'";
+		$stmt = $conn->prepare($query);
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
+			echo 'duplicate';
+		}else{
 			$stmt = NULL;
+			$query = "INSERT INTO user_accounts(`username`,`password`,`role`)VALUES('$username','$password','$user_type')";
+			$stmt = $conn->prepare($query);
+			if ($stmt->execute()) {
+				echo 'success';
+			}else{
+				echo 'error';
+			}
 		}
 	}
+	
 }else if ($method == 'update_account') {
 	$id = $_POST['id'];
 	$fullname = $_POST['fullname'];
